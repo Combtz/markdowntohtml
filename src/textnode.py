@@ -14,7 +14,7 @@ class TextNode():
 
     # Equality Check, all variables must be the same.
     def __eq__(self, other):
-        if self.text == other.text and self.text_type == other.text_type_code and self.url == other.url:
+        if self.text == other.text and self.text_type == other.text_type and self.url == other.url:
             return True
         return False
     

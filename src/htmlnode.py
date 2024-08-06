@@ -1,3 +1,5 @@
+from functools import reduce
+
 # A class that presents one node of a html documenty tree
 class HTMLNode():
     def __init__(self, tag, value, children, props):
@@ -36,3 +38,21 @@ class LeafNode(HTMLNode):
     
     def __repr__(self):
         return f"LeafNode({self.tag}, {self.value}, {self.props})"
+
+# A class that represents hold Children HTML Nodes.    
+class ParentNode(HTMLNode):
+    def __init__(self, tag, children, props = None):
+        super().__init__(tag, None, children, props)
+
+    def to_html(self):
+        if self.tag == None:
+            raise ValueError("Parent Node must have a tag")
+        if self.children == None:
+            raise ValueError("Parent Node with no children")
+        
+        html = reduce(lambda arr, child: arr + child.to_html(), self.children, "")
+        return f"<{self.tag}{self.props_to_html()}>{html}</{self.tag}>"
+
+    def __repr__(self):
+        return f"ParentNode({self.tag}, {self.children}, {self.props})"
+    

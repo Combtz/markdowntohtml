@@ -104,3 +104,25 @@ def split_nodes_link(old_nodes):
         if original_text != "":
             new_nodes.append(TextNode(original_text, text_type_text))
     return new_nodes
+
+
+# A function to convert text into text nodes of the correct type.
+def text_to_textnodes(text):
+    node = TextNode(text, text_type_text)
+
+    # Check for bold markdown
+    nodes = split_nodes_delimiter([node], "**", text_type_bold)
+
+    # Check for italic markdown # Note bold must be first to as italic conflicts with bold.
+    nodes = split_nodes_delimiter(nodes, "*", text_type_italic)
+
+    # Check for code block markdown
+    nodes = split_nodes_delimiter(nodes, "`", text_type_code)
+
+    # Check for images
+    nodes = split_nodes_image(nodes)
+
+    # Check for links
+    nodes = split_nodes_link(nodes)
+
+    return nodes

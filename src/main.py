@@ -1,5 +1,6 @@
 import os
 import shutil
+from mdtohtml import generate_page
 
 def copy_directory_contents(src, dest):
     # Remove the destination directory if it exists
@@ -24,9 +25,18 @@ def copy_directory_contents(src, dest):
 
 
 def main():
-    src_dir = "./static"
-    dest_dir = "./public"
-    copy_directory_contents(src_dir, dest_dir)
+    # Remove the existing 'public' directory if it exists
+    if os.path.exists("public"):
+        shutil.rmtree("public")
+
+    # Copy all the static files from 'static' to 'public'
+    shutil.copytree("static", "public")
+
+    # Generate the HTML page from 'content/index.md' using 'template.html'
+    generate_page("content/index.md", "template.html", "public/index.html")
+
+if __name__ == "__main__":
+    main()
 
 if __name__ == "__main__":
     main()
